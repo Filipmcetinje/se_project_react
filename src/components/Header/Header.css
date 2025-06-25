@@ -1,0 +1,77 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 32px 0 28px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  flex-wrap: wrap;
+}
+.header__logo {
+  margin-right: 24px;
+}
+.header__date-location {
+  margin: 0;
+  font-size: 20px;
+}
+.header__add-clothes-btn {
+  margin: 0 20px 0 auto;
+  border: none;
+  font-size: 20px;
+}
+.header__user-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header__username {
+  margin: 0;
+  font-size: 20px;
+}
+.header__mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+.header__menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  /* Show mobile button */
+  .header__mobile-toggle {
+    display: block;
+  }
+
+  /* Hide menu by default */
+  .header__menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  /* Show menu when open */
+  .header__menu_opened {
+    display: flex;
+  }
+
+  .header__add-clothes-btn {
+    margin: 0;
+  }
+
+  .header__user-container {
+    justify-content: space-between;
+    width: 100%;
+  }
+}

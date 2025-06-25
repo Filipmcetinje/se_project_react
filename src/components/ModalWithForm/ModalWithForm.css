@@ -1,0 +1,92 @@
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("../../assets/CabinetGrotesk-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+}
+.modal_opened {
+  visibility: visible;
+}
+.modal__content {
+  background: rgba(255, 255, 255, 1);
+  position: relative;
+  padding: 28px 28px 36px;
+  max-width: 496px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 20px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+}
+.modal__close {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+}
+.modal__close-icon {
+  width: 16px;
+  height: 16px;
+}
+.modal__title {
+  margin: 0;
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+.modal__form {
+  display: flex;
+  flex-direction: column;
+}
+.modal__input {
+  display: block;
+  border: none;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+.modal__radio-buttons {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+.modal__label {
+  margin-bottom: 24px;
+}
+.modal__label_type_radio {
+  margin-bottom: 8px;
+}
+.modal__legend {
+  margin-bottom: 12px;
+}
+.modal__submit {
+  width: 124px;
+  height: 36px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 32px;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 1);
+  border: none;
+  font-size: 16px;
+  border-radius: 4px;
+}

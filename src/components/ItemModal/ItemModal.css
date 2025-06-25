@@ -1,0 +1,67 @@
+.preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  visibility: visible;
+}
+
+.preview-modal__content {
+  background-color: white;
+
+  border-radius: 20px;
+  max-width: 498px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.preview-modal__image {
+  width: 100%;
+  height: 498px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.preview-modal__caption {
+  margin-top: 20px;
+  margin-left: 32px;
+  margin-bottom: 12px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.preview-modal__weather {
+  margin-left: 32px;
+  margin-bottom: 32px;
+  font-size: 20px;
+  line-height: 24px;
+
+  text-align: left;
+}
+
+.preview-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.preview-modal__close-icon {
+  width: 16px;
+  height: 16px;
+}

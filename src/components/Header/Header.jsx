@@ -13,7 +13,7 @@ function Header({ handleAddClick, city }) {
   };
   return (
     <header className="header">
-      <img className="header__logo" src={logo} />
+      <img className="header__logo" src={logo} alt="WTWR logo" />
 
       <button
         className="header__mobile-toggle"

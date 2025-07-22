@@ -1,0 +1,56 @@
+.delete-modal {
+  visibility: visible;
+}
+
+.delete-modal__content {
+  max-width: 670px;
+  width: 100%;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+  border-radius: 20px;
+  position: relative;
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.delete-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+}
+
+.delete-modal__close-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.delete-modal__title {
+  max-width: 367px;
+  width: 100%;
+  font-size: 20px;
+  line-height: 24px;
+  position: relative;
+}
+
+.delete-modal__button_confirm {
+  margin-top: 40px;
+  color: rgba(255, 77, 0, 1);
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+}
+
+.delete-modal__button_cancel {
+  margin-top: 24px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+}

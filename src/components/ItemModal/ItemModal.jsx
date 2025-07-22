@@ -1,7 +1,8 @@
 import "./ItemModal.css";
 import closeIcon from "../../assets/close-icon.svg";
 
-function ItemModal({ item, onClose }) {
+function ItemModal({ item, onClose, onDelete }) {
+  console.log("Item object:", item);
   return (
     <div className="preview-modal">
       <div className="preview-modal__content">
@@ -13,12 +14,19 @@ function ItemModal({ item, onClose }) {
           />
         </button>
         <img
-          src={item.link}
+          src={item.imageUrl}
           alt={item.name}
           className="preview-modal__image"
         />
         <p className="preview-modal__caption">{item.name}</p>
         <p className="preview-modal__weather">Weather: {item.weather}</p>
+
+        <button
+          className="preview-modal__delete-btn"
+          onClick={() => onDelete(item)}
+        >
+          Delete item
+        </button>
       </div>
     </div>
   );

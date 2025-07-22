@@ -1,19 +1,22 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 import "./Header.css";
 import logo from "../../assets/logo1.svg";
 import avatar from "../../assets/avatar-img.svg";
 import hamburgerIcon from "../../assets/hamburger.svg";
 import closeIcon from "../../assets/close.svg";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch.jsx";
 
-function Header({ handleAddClick, city }) {
+function Header({ handleAddClick, city, isCelsius, onToggle }) {
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpened(!isMobileMenuOpened);
   };
   return (
     <header className="header">
-      <img className="header__logo" src={logo} alt="WTWR logo" />
+      <Link to="/" className="header__logo-link">
+        <img className="header__logo" src={logo} alt="WTWR logo" />
+      </Link>
 
       <button
         className="header__mobile-toggle"
@@ -38,17 +41,24 @@ function Header({ handleAddClick, city }) {
           })}
           {city ? `, ${city}` : ""}
         </p>
-        <button
-          onClick={() => handleAddClick("add-garment")}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add clothes
-        </button>
-        <div className="header__user-container">
+
+        <div className="header__actions">
+          <div className="header__unit-toggle">
+            <ToggleSwitch isCelsius={isCelsius} onToggle={onToggle} />
+          </div>
+
+          <button
+            onClick={() => handleAddClick("add-garment")}
+            type="button"
+            className="header__add-clothes-btn"
+          >
+            + Add clothes
+          </button>
+        </div>
+        <Link to="/profile" className="header__user-container">
           <span className="header__username">Terrence Tegegne</span>
           <img src={avatar} alt="Terrence Tegegne" className="header__avatar" />
-        </div>
+        </Link>
       </div>
     </header>
   );

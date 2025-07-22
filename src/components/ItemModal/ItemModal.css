@@ -65,3 +65,13 @@
   width: 16px;
   height: 16px;
 }
+.preview-modal__delete-btn {
+  position: absolute;
+  right: 32px;
+  top: 518px;
+  color: rgba(255, 77, 0, 1);
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 24px;
+}

@@ -28,9 +28,8 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
     evt.preventDefault();
     onAddItem({
       name,
-      link: imageUrl,
+      imageUrl,
       weather,
-      _id: Date.now(),
     });
   };
 
@@ -51,6 +50,7 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
           placeholder="Name"
           onChange={handleNameChange}
           value={name}
+          required
         />
       </label>
       <label htmlFor="imageURL" className="modal__label">
@@ -62,6 +62,7 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
           placeholder="Image URL"
           onChange={handleImageUrlChange}
           value={imageUrl}
+          required
         />
       </label>
       <fieldset className="modal__radio-buttons">
@@ -76,6 +77,7 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
             value="hot"
             checked={weather === "hot"}
             onChange={handleWeatherChange}
+            required
           />
           Hot
         </label>

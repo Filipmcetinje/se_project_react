@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import "./WeatherCard.css";
 import { getWeatherImage } from "../../../utils/weatherApi";
-import CurrentTemperatureUnitContext from "../../../contexts/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../../../contexts/CurrentTemperatureUnitContext.js";
 
 function WeatherCard({
   temperature,

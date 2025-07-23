@@ -11,7 +11,7 @@ import ItemModal from "../ItemModal/ItemModal";
 
 import Footer from "../Footer/Footer";
 import { fetchWeatherData, getWeatherType } from "../../utils/weatherApi.js";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext.jsx";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext.js";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import { Routes, Route } from "react-router-dom";
 import Profile from "../Profile/Profile";
@@ -27,7 +27,6 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   const [clothingItems, setClothingItems] = useState([]);
-  const allClothingItems = clothingItems;
 
   const [cardToDelete, setCardToDelete] = useState(null);
 
@@ -52,7 +51,7 @@ function App() {
     addItem(item)
       .then((createdItem) => {
         setClothingItems([createdItem, ...clothingItems]);
-        setActiveModal("");
+        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error adding item:", err);
@@ -75,6 +74,19 @@ function App() {
     setActiveModal("preview");
   };
 
+  const handleConfirmDelete = () => {
+    if (cardToDelete?._id) {
+      handleDeleteItem(cardToDelete._id);
+    }
+    setActiveModal("");
+    setCardToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setActiveModal("");
+    setCardToDelete(null);
+  };
+
   useEffect(() => {
     fetchWeatherData()
       .then((data) => {
@@ -92,7 +104,9 @@ function App() {
           timestamp: data.dt,
         });
       })
-      .catch((err) => console.error(err));
+      .catch((error) => {
+        console.error("Failed to fetch weather data:", error);
+      });
   }, []);
 
   useEffect(() => {
@@ -137,7 +151,7 @@ function App() {
                   <Main
                     weatherData={weatherData}
                     onCardClick={handleCardClick}
-                    clothingItems={allClothingItems}
+                    clothingItems={clothingItems}
                   />
                 }
               />
@@ -145,7 +159,7 @@ function App() {
                 path="/profile"
                 element={
                   <Profile
-                    clothingItems={allClothingItems}
+                    clothingItems={clothingItems}
                     onAddItem={() => handleOpenModal("add-garment")}
                     onCardClick={handleCardClick}
                   />
@@ -171,17 +185,8 @@ function App() {
           {activeModal === "confirm" && cardToDelete && (
             <DeleteConfirmationModal
               isOpen={activeModal === "confirm"}
-              onConfirm={() => {
-                if (cardToDelete?._id) {
-                  handleDeleteItem(cardToDelete._id);
-                }
-                setActiveModal("");
-                setCardToDelete(null);
-              }}
-              onCancel={() => {
-                setActiveModal("");
-                setCardToDelete(null);
-              }}
+              onConfirm={handleConfirmDelete}
+              onCancel={handleCancelDelete}
             />
           )}
         </div>

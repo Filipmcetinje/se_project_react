@@ -40,6 +40,7 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      extraClass="modal__submit_add-item"
     >
       <label htmlFor="name" className="modal__label">
         Name{" "}

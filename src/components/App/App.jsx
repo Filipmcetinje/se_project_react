@@ -17,6 +17,13 @@ import { Routes, Route } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import { getItems, addItem, deleteItem } from "../../utils/api.js";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import LoginModal from "../LoginModal/LoginModal";
+import * as auth from "../../utils/auth.js";
+import CurrentUserContext from "../../contexts/CurrentUserContext.js";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import { updateUserInfo } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [weatherData, setWeatherData] = useState({});
@@ -29,6 +36,11 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
 
   const [cardToDelete, setCardToDelete] = useState(null);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const navigate = useNavigate();
 
   function openConfirmationModal(card) {
     setCardToDelete(card);
@@ -87,6 +99,90 @@ function App() {
     setCardToDelete(null);
   };
 
+  function handleRegister({ name, avatar, email, password }) {
+    console.log("🧩 handleRegister called with:", {
+      name,
+      avatar,
+      email,
+      password,
+    });
+    auth
+      .signup({ name, avatar, email, password })
+      .then(() => {
+        return auth.signin({ email, password });
+      })
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        console.log("Registered and logged in!");
+
+        setIsLoggedIn(true);
+
+        return auth.checkToken(res.token);
+      })
+      .then((userData) => {
+        setCurrentUser(userData);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        console.error("Registration error:", err);
+      });
+  }
+
+  function handleLogin({ email, password }) {
+    return auth
+      .signin({ email, password })
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        setIsLoggedIn(true);
+        return auth.checkToken(res.token);
+      })
+      .then((userData) => {
+        setCurrentUser(userData);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        throw err;
+      });
+  }
+
+  function handleEditProfile({ name, avatar }) {
+    const token = localStorage.getItem("jwt");
+
+    updateUserInfo(name, avatar, token)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        setActiveModal("");
+        console.log("Profile updated!");
+      })
+      .catch((err) => {
+        console.error("Error updating profile:", err);
+      });
+  }
+
+  function handleCardLike({ _id, likes }) {
+    const token = localStorage.getItem("jwt");
+    const isLiked = likes.some((id) => id === currentUser?._id);
+
+    const apiCall = isLiked ? removeCardLike : addCardLike;
+
+    apiCall(_id, token)
+      .then((updatedCard) => {
+        setClothingItems((cards) =>
+          cards.map((item) => (item._id === _id ? updatedCard : item))
+        );
+      })
+      .catch((err) => console.error("Error updating like:", err));
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    setActiveModal("");
+    navigate("/");
+  }
+
   useEffect(() => {
     fetchWeatherData()
       .then((data) => {
@@ -120,6 +216,25 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("jwt");
+
+    if (token) {
+      auth
+        .checkToken(token)
+        .then((userData) => {
+          console.log("Token valid, user:", userData);
+          setIsLoggedIn(true);
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.error("Invalid token:", err);
+          localStorage.removeItem("jwt");
+          setIsLoggedIn(false);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     if (!activeModal) return;
 
     const handleEscClose = (e) => {
@@ -136,7 +251,7 @@ function App() {
   }, [activeModal]);
 
   return (
-    <HashRouter>
+    <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
@@ -151,6 +266,7 @@ function App() {
                   <Main
                     weatherData={weatherData}
                     onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
                     clothingItems={clothingItems}
                   />
                 }
@@ -162,6 +278,8 @@ function App() {
                     clothingItems={clothingItems}
                     onAddItem={() => handleOpenModal("add-garment")}
                     onCardClick={handleCardClick}
+                    onEditProfile={() => handleOpenModal("edit-profile")}
+                    onSignOut={handleSignOut}
                   />
                 }
               />
@@ -189,9 +307,34 @@ function App() {
               onCancel={handleCancelDelete}
             />
           )}
+          {activeModal === "register" && (
+            <RegisterModal
+              isOpen={activeModal === "register"}
+              onClose={handleCloseModal}
+              onRegister={handleRegister}
+              handleOpenModal={handleOpenModal}
+            />
+          )}
+
+          {activeModal === "login" && (
+            <LoginModal
+              isOpen={activeModal === "login"}
+              onClose={handleCloseModal}
+              onLogin={handleLogin}
+              handleOpenModal={handleOpenModal}
+            />
+          )}
+
+          {activeModal === "edit-profile" && (
+            <EditProfileModal
+              isOpen={activeModal === "edit-profile"}
+              onClose={handleCloseModal}
+              onEditProfile={handleEditProfile}
+            />
+          )}
         </div>
       </CurrentTemperatureUnitContext.Provider>
-    </HashRouter>
+    </CurrentUserContext.Provider>
   );
 }
 

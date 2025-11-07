@@ -17,3 +17,8 @@ This React app helps users decide what to wear based on the weather. It fetches 
 - Add/remove clothing items
 - Temperature toggle (°F/°C)
 - Modal-based forms and delete confirmations
+
+## Backend Repository
+
+The backend code for this project can be found here:  
+👉 [https://github.com/Filipmcetinje/se_project_express](https://github.com/Filipmcetinje/se_project_express)

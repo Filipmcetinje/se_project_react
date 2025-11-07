@@ -79,14 +79,43 @@
   margin-bottom: 12px;
 }
 .modal__submit {
-  width: 124px;
+  width: 86px;
   height: 36px;
   max-width: 100%;
   box-sizing: border-box;
   margin-top: 32px;
+  margin-right: 10px;
   background: rgba(0, 0, 0, 0.3);
   color: rgba(255, 255, 255, 1);
   border: none;
   font-size: 16px;
   border-radius: 4px;
+  white-space: nowrap;
+}
+
+.modal__submit_add-item {
+  width: 124px;
+  height: 36px;
+}
+
+.modal__submit_active {
+  background: rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.modal__alt-btn {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 16px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+.modal__submit_edit-profile {
+  width: 128px;
+  height: 36px;
+  white-space: nowrap;
+  background-color: #000;
 }

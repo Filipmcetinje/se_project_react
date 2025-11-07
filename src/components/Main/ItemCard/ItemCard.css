@@ -24,3 +24,25 @@
   width: 100%;
   display: block;
 }
+
+.card__like-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  background: url("../../../assets/heart-empty.svg") no-repeat center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card__like-btn:hover {
+  transform: scale(1.1);
+}
+
+.card__like-btn_liked {
+  background: url("../../../assets/heart-filled.svg") no-repeat center;
+  background-size: contain;
+}

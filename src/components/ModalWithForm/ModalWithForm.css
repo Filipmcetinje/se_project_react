@@ -93,14 +93,9 @@
   white-space: nowrap;
 }
 
-.modal__submit_add-item {
-  width: 124px;
-  height: 36px;
-}
-
 .modal__submit_active {
-  background: rgba(0, 0, 0, 1);
-  cursor: pointer;
+  background: #000;
+  color: #fff;
 }
 
 .modal__alt-btn {

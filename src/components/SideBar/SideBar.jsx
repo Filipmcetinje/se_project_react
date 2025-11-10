@@ -2,12 +2,11 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import "./SideBar.css";
 
-function SideBar({ onEditProfile, onSignOut }) {
+function SideBar({ onEditProfile, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <div className="sidebar">
-      {/* Row 1 — avatar + name */}
       <div className="sidebar__user">
         {currentUser?.avatar ? (
           <img
@@ -23,16 +22,11 @@ function SideBar({ onEditProfile, onSignOut }) {
         <p className="sidebar__username">{currentUser?.name || "Guest"}</p>
       </div>
 
-      {/* Row 2 — change profile */}
       <button className="sidebar__link" onClick={onEditProfile}>
         Change profile data
       </button>
 
-      {/* Row 3 — logout */}
-      <button
-        className="sidebar__link sidebar__link_logout"
-        onClick={onSignOut}
-      >
+      <button className="sidebar__link sidebar__link_logout" onClick={onLogout}>
         Log out
       </button>
     </div>

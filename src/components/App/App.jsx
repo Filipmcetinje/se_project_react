@@ -1,12 +1,9 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { HashRouter } from "react-router-dom";
 
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+
 import ItemModal from "../ItemModal/ItemModal";
 
 import Footer from "../Footer/Footer";
@@ -16,7 +13,13 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import { Routes, Route } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import { getItems, addItem, deleteItem } from "../../utils/api.js";
+import {
+  getItems,
+  addItem,
+  deleteItem,
+  addCardLike,
+  removeCardLike,
+} from "../../utils/api.js";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
 import * as auth from "../../utils/auth.js";
@@ -24,6 +27,7 @@ import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import { updateUserInfo } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [weatherData, setWeatherData] = useState({});
@@ -122,6 +126,7 @@ function App() {
       .then((userData) => {
         setCurrentUser(userData);
         setActiveModal("");
+        navigate("/");
       })
       .catch((err) => {
         console.error("Registration error:", err);
@@ -139,6 +144,7 @@ function App() {
       .then((userData) => {
         setCurrentUser(userData);
         setActiveModal("");
+        navigate("/");
       })
       .catch((err) => {
         console.error("Login error:", err);
@@ -162,8 +168,9 @@ function App() {
 
   function handleCardLike({ _id, likes }) {
     const token = localStorage.getItem("jwt");
-    const isLiked = likes.some((id) => id === currentUser?._id);
+    if (!token || !currentUser?._id) return;
 
+    const isLiked = likes.some((id) => id === currentUser._id);
     const apiCall = isLiked ? removeCardLike : addCardLike;
 
     apiCall(_id, token)
@@ -181,6 +188,14 @@ function App() {
     setCurrentUser(null);
     setActiveModal("");
     navigate("/");
+  }
+
+  function handleEditProfileClick() {
+    setActiveModal("edit-profile");
+  }
+
+  function handleAddItemClick() {
+    setActiveModal("add-garment");
   }
 
   useEffect(() => {
@@ -257,7 +272,14 @@ function App() {
       >
         <div className="page">
           <div className="page__content">
-            <Header handleAddClick={handleOpenModal} city={weatherData.city} />
+            <Header
+              handleAddClick={handleOpenModal}
+              city={weatherData.city}
+              isCelsius={currentTemperatureUnit === "C"}
+              onToggle={handleToggleSwitchChange}
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
+            />
 
             <Routes>
               <Route
@@ -274,13 +296,16 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <Profile
-                    clothingItems={clothingItems}
-                    onAddItem={() => handleOpenModal("add-garment")}
-                    onCardClick={handleCardClick}
-                    onEditProfile={() => handleOpenModal("edit-profile")}
-                    onSignOut={handleSignOut}
-                  />
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      clothingItems={clothingItems}
+                      onCardClick={handleCardClick}
+                      onCardLike={handleCardLike}
+                      onEditProfile={handleEditProfileClick}
+                      onAddItem={handleAddItemClick}
+                      onLogout={handleSignOut}
+                    />
+                  </ProtectedRoute>
                 }
               />
             </Routes>

@@ -1,3 +1,5 @@
+import { checkResponse } from "./api";
+
 const BASE_URL = "http://localhost:3001";
 
 export function signup({ name, avatar, email, password }) {
@@ -5,7 +7,7 @@ export function signup({ name, avatar, email, password }) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, avatar, email, password }),
-  }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
+  }).then(checkResponse);
 }
 
 export function signin({ email, password }) {
@@ -13,7 +15,7 @@ export function signin({ email, password }) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
-  }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
+  }).then(checkResponse);
 }
 
 export function checkToken(token) {
@@ -23,5 +25,5 @@ export function checkToken(token) {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
+  }).then(checkResponse);
 }

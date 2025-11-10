@@ -33,6 +33,8 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
     });
   };
 
+  const isFormValid = name && imageUrl && weather;
+
   return (
     <ModalWithForm
       title="New garment"
@@ -41,6 +43,7 @@ function AddItemModal({ onClose, isOpen, onAddItem }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       extraClass="modal__submit_add-item"
+      isFormValid={isFormValid}
     >
       <label htmlFor="name" className="modal__label">
         Name{" "}

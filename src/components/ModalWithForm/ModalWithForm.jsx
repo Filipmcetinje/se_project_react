@@ -29,9 +29,9 @@ function ModalWithForm({
           <div className="modal__actions">
             <button
               type="submit"
-              className={`modal__submit ${
-                isFormValid ? "modal__submit_active" : ""
-              }${extraClass || ""}`}
+              className={`modal__submit${
+                isFormValid ? " modal__submit_active" : ""
+              } ${extraClass ? " " + extraClass : ""}`}
               disabled={!isFormValid}
             >
               {buttonText}

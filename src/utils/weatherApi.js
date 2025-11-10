@@ -1,4 +1,5 @@
-import { APIkey, latitude, longitude } from "./constants";
+import { apiKey, latitude, longitude } from "./constants";
+import { checkResponse } from "./api";
 
 import sunny from "../assets/sunny.svg";
 import night from "../assets/night.svg";
@@ -11,13 +12,8 @@ import nightStorm from "../assets/night-storm.svg";
 
 export const fetchWeatherData = () => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`
-  ).then((res) => {
-    if (!res.ok) {
-      throw new Error("Failed to fetch weather data");
-    }
-    return res.json();
-  });
+    `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${apiKey}`
+  ).then(checkResponse);
 };
 export const getWeatherType = (temperature) => {
   if (temperature >= 86) {
@@ -42,6 +38,6 @@ export const getWeatherImage = (weatherId, sunrise, sunset, currentTime) => {
   } else if (weatherId > 800) {
     return isDaytime ? cloudy : nightCloudy;
   } else {
-    return isDaytime ? sunny : night; 
+    return isDaytime ? sunny : night;
   }
 };

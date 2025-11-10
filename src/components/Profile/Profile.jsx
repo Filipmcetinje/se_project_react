@@ -6,16 +6,18 @@ function Profile({
   clothingItems,
   onAddItem,
   onCardClick,
+  onCardLike,
   onEditProfile,
-  onSignOut,
+  onLogout,
 }) {
   return (
     <div className="profile">
-      <SideBar onEditProfile={onEditProfile} onSignOut={onSignOut} />
+      <SideBar onEditProfile={onEditProfile} onLogout={onLogout} />
       <ClothesSection
         clothingItems={clothingItems}
         onAddItem={onAddItem}
         onCardClick={onCardClick}
+        onCardLike={onCardLike}
       />
     </div>
   );

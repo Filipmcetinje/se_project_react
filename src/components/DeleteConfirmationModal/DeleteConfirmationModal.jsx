@@ -1,7 +1,9 @@
 import "./DeleteConfirmationModal.css";
 import closeIcon from "../../assets/close-icon.svg";
+import useModalClose from "../../hooks/useModalClose";
 
 function DeleteConfirmationModal({ onConfirm, onCancel, isOpen }) {
+  useModalClose(isOpen, onCancel);
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
       <div className="delete-modal__content">
@@ -13,7 +15,8 @@ function DeleteConfirmationModal({ onConfirm, onCancel, isOpen }) {
           />
         </button>
         <h2 className="delete-modal__title">
-          Are you sure you want to delete this item? <br /> This action is irreversible
+          Are you sure you want to delete this item? <br /> This action is
+          irreversible
         </h2>
         <button
           className="delete-modal__button delete-modal__button_confirm"

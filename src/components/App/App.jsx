@@ -44,6 +44,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   function openConfirmationModal(card) {
@@ -63,26 +65,37 @@ function App() {
     setActiveModal("");
   };
 
+  function handleSubmit(request) {
+    setIsLoading(true);
+
+    request()
+      .then(handleCloseModal)
+
+      .catch(console.error)
+
+      .finally(() => setIsLoading(false));
+  }
+
   const handleAddItemSubmit = (item) => {
-    addItem(item)
-      .then((createdItem) => {
+    function makeRequest() {
+      return addItem(item).then((createdItem) => {
         setClothingItems([createdItem, ...clothingItems]);
-        handleCloseModal();
-      })
-      .catch((err) => {
-        console.error("Error adding item:", err);
       });
+    }
+
+    handleSubmit(makeRequest);
   };
 
   const handleDeleteItem = (id) => {
-    deleteItem(id)
-      .then(() => {
+    function makeRequest() {
+      return deleteItem(id).then(() => {
         const updatedItems = clothingItems.filter((item) => item._id !== id);
         setClothingItems(updatedItems);
-      })
-      .catch((err) => {
-        console.error("Error deleting item:", err);
+        setCardToDelete(null);
       });
+    }
+
+    handleSubmit(makeRequest);
   };
 
   const handleCardClick = (item) => {
@@ -94,8 +107,6 @@ function App() {
     if (cardToDelete?._id) {
       handleDeleteItem(cardToDelete._id);
     }
-    setActiveModal("");
-    setCardToDelete(null);
   };
 
   const handleCancelDelete = () => {
@@ -125,7 +136,7 @@ function App() {
       })
       .then((userData) => {
         setCurrentUser(userData);
-        setActiveModal("");
+        handleCloseModal();
         navigate("/");
       })
       .catch((err) => {
@@ -143,7 +154,7 @@ function App() {
       })
       .then((userData) => {
         setCurrentUser(userData);
-        setActiveModal("");
+        handleCloseModal();
         navigate("/");
       })
       .catch((err) => {
@@ -155,15 +166,14 @@ function App() {
   function handleEditProfile({ name, avatar }) {
     const token = localStorage.getItem("jwt");
 
-    updateUserInfo(name, avatar, token)
-      .then((updatedUser) => {
+    function makeRequest() {
+      return updateUserInfo(name, avatar, token).then((updatedUser) => {
         setCurrentUser(updatedUser);
-        setActiveModal("");
         console.log("Profile updated!");
-      })
-      .catch((err) => {
-        console.error("Error updating profile:", err);
       });
+    }
+
+    handleSubmit(makeRequest);
   }
 
   function handleCardLike({ _id, likes }) {
@@ -186,7 +196,7 @@ function App() {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
     setCurrentUser(null);
-    setActiveModal("");
+    handleCloseModal();
     navigate("/");
   }
 
@@ -249,22 +259,6 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (!activeModal) return;
-
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        handleCloseModal();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
-  }, [activeModal]);
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
@@ -278,7 +272,6 @@ function App() {
               isCelsius={currentTemperatureUnit === "C"}
               onToggle={handleToggleSwitchChange}
               isLoggedIn={isLoggedIn}
-              currentUser={currentUser}
             />
 
             <Routes>
@@ -321,6 +314,7 @@ function App() {
           {activeModal === "preview" && selectedItem && (
             <ItemModal
               item={selectedItem}
+              isOpen={activeModal === "preview"}
               onClose={handleCloseModal}
               onDelete={openConfirmationModal}
             />

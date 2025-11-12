@@ -9,12 +9,20 @@ function EditProfileModal({ isOpen, onClose, onEditProfile }) {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
 
+  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
     if (currentUser && isOpen) {
       setName(currentUser.name || "");
       setAvatar(currentUser.avatar || "");
     }
   }, [currentUser, isOpen]);
+
+  useEffect(() => {
+    const isNameValid = name.trim().length > 0;
+    const isAvatarValid = avatar.trim().length > 0;
+    setIsFormValid(isNameValid && isAvatarValid);
+  }, [name, avatar]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -29,6 +37,7 @@ function EditProfileModal({ isOpen, onClose, onEditProfile }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       extraClass="modal__submit_edit-profile"
+      isFormValid={isFormValid}
     >
       <label className="modal__label">
         Name*

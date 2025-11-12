@@ -1,19 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import logo from "../../assets/logo1.svg";
 import hamburgerIcon from "../../assets/hamburger.svg";
 import closeIcon from "../../assets/close.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch.jsx";
+import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 
-function Header({
-  handleAddClick,
-  city,
-  isCelsius,
-  onToggle,
-  isLoggedIn,
-  currentUser,
-}) {
+function Header({ handleAddClick, city, isCelsius, onToggle, isLoggedIn }) {
+  const currentUser = useContext(CurrentUserContext);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
   const toggleMobileMenu = () => setIsMobileMenuOpened(!isMobileMenuOpened);
 

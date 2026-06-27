@@ -2,7 +2,7 @@ import { checkResponse } from "./api";
 
 const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://api.filip-wtwr.undo.it"
+    ? "https://wtwr-backend-7hd1.onrender.com"
     : "http://localhost:3001";
 
 export function signup({ name, avatar, email, password }) {

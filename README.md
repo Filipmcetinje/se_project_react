@@ -1,24 +1,27 @@
-# React + Vite
+# WTWR (What to Wear?)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-# Weather Clothing App
-
-This React app helps users decide what to wear based on the weather. It fetches live weather data and displays suitable clothing items. Users can also add or remove items.
+A full-stack weather application built with **React**, **Node.js**, **Express**, **MongoDB**, and **JWT authentication**. Users can create an account, log in, and manage clothing items based on current weather conditions.
 
 ## Features
 
 - Live weather data (OpenWeather API)
-- Add/remove clothing items
+- User authentication (JWT)
+- Add and remove clothing items
 - Temperature toggle (°F/°C)
-- Modal-based forms and delete confirmations
+- Responsive design
 
-## Backend Repository
+## Live Demo
 
-The backend code for this project can be found here:  
-👉 [https://github.com/Filipmcetinje/se_project_express](https://github.com/Filipmcetinje/se_project_express)
+Frontend:
+https://filipmcetinje.github.io/se_project_react/
+
+Backend API:
+https://wtwr-backend-7hd1.onrender.com
+
+## Repositories
+
+Frontend:
+https://github.com/Filipmcetinje/se_project_react
+
+Backend:
+https://github.com/Filipmcetinje/se_project_express
